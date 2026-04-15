@@ -77,7 +77,7 @@
 		[2026-01-20] v2026.1.20 Open v4.23.1 fix: 修复小程序注销备案缺失参数 #3243 感谢 @mc7246
 		[2026-01-25] v2026.1.25 优化 TenPayV3
 		[2026-03-20] v2026.3.23 MP v16.24.2 修复 GetStableAccessToken 方法中 force_refresh 参数硬编码问题 / Issue #3272
-		[2026-04-15] v2026.4.15 .NET 10 相关 preview 升级为正式版
+		[2026-04-15] v2026.4.15 .NET 10 相关 preview 升级为正式版（含 AspNet MCP 依赖、TenPayV3 稳定版）
 	</PackageReleaseNotes>
     <RepositoryUrl>https://github.com/JeffreySu/WeiXinMPSDK</RepositoryUrl>
   </PropertyGroup>
