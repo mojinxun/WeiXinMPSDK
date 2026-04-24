@@ -57,15 +57,6 @@ namespace Senparc.Weixin.TenPayV3
     }
 
     /// <summary>
-    /// 支付请求签名算法类型
-    /// </summary>
-    public enum CertType
-    {
-        RSA,
-        SM
-    }
-
-    /// <summary>
     /// 调起支付的应用类型
     /// </summary>
     public enum JsApiAppType
