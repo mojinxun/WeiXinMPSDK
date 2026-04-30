@@ -1,7 +1,7 @@
-#region Apache License Version 2.0
+﻿#region Apache License Version 2.0
 /*----------------------------------------------------------------
 
-Copyright 2025 Jeffrey Su & Suzhou Senparc Network Technology Co.,Ltd.
+Copyright 2026 Jeffrey Su & Suzhou Senparc Network Technology Co.,Ltd.
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file
 except in compliance with the License. You may obtain a copy of the License at
@@ -19,7 +19,7 @@ Detail: https://github.com/JeffreySu/WeiXinMPSDK/blob/master/license.md
 #endregion Apache License Version 2.0
 
 /*----------------------------------------------------------------
-    Copyright (C) 2025 Senparc
+    Copyright (C) 2026 Senparc
 
     文件名：MediaAPI.cs
     文件功能描述：素材管理接口（原多媒体文件接口）
@@ -494,6 +494,26 @@ namespace Senparc.Weixin.MP.AdvancedAPIs
 
             }, accessTokenOrAppId);
         }
+
+
+        /// <summary>
+        /// 上传图文消息内的图片获取URL
+        /// </summary>
+        /// <param name="accessTokenOrAppId">AccessToken或AppId（推荐使用AppId，需要先注册）</param>
+        /// <param name="file">上传文件的绝对路径</param>
+        /// <param name="timeOut">代理请求超时时间（毫秒）</param>
+        /// <returns></returns>
+        public static UploadImgResult UploadImg(string accessTokenOrAppId, Stream fileStream, int timeOut = Config.TIME_OUT)
+        {
+            //接口文档参考：https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1444738729
+            return ApiHandlerWapper.TryCommonApi(accessToken =>
+            {
+                var url = string.Format(Config.ApiMpHost + "/cgi-bin/media/uploadimg?access_token={0}", accessToken.AsUrlData());
+                fileStream.Seek(0, SeekOrigin.Begin);
+                return CO2NET.HttpUtility.Post.PostGetJson<UploadImgResult>(CommonDI.CommonSP, url, null, fileStream, timeOut: timeOut);
+            }, accessTokenOrAppId);
+        }
+
 
         #endregion
 
@@ -971,6 +991,24 @@ namespace Senparc.Weixin.MP.AdvancedAPIs
             }, accessTokenOrAppId).ConfigureAwait(false);
         }
 
+        /// <summary>
+        /// 【异步方法】上传图文消息内的图片获取URL
+        /// </summary>
+        /// <param name="accessTokenOrAppId">AccessToken或AppId（推荐使用AppId，需要先注册）</param>
+        /// <param name="file"></param>
+        /// <param name="timeOut"></param>
+        /// <returns></returns>
+        public static async Task<UploadImgResult> UploadImgAsync(string accessTokenOrAppId, Stream fileStream, int timeOut = Config.TIME_OUT)
+        {
+            //接口文档参考：https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1444738729
+            return await ApiHandlerWapper.TryCommonApiAsync(async accessToken =>
+            {
+                var url = string.Format(Config.ApiMpHost + "/cgi-bin/media/uploadimg?access_token={0}", accessToken.AsUrlData());
+                fileStream.Seek(0, SeekOrigin.Begin);
+                return await CO2NET.HttpUtility.Post.PostGetJsonAsync<UploadImgResult>(CommonDI.CommonSP, url, null, fileStream, timeOut: timeOut).ConfigureAwait(false);
+            }, accessTokenOrAppId).ConfigureAwait(false);
+        }
+
         #endregion
 
         #region AI开放接口
@@ -1049,3 +1087,4 @@ namespace Senparc.Weixin.MP.AdvancedAPIs
         #endregion
     }
 }
+

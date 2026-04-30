@@ -1,7 +1,7 @@
 ﻿#region Apache License Version 2.0
 /*----------------------------------------------------------------
 
-Copyright 2025 Jeffrey Su & Suzhou Senparc Network Technology Co.,Ltd.
+Copyright 2026 Jeffrey Su & Suzhou Senparc Network Technology Co.,Ltd.
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file
 except in compliance with the License. You may obtain a copy of the License at
@@ -19,7 +19,7 @@ Detail: https://github.com/JeffreySu/WeiXinMPSDK/blob/master/license.md
 #endregion Apache License Version 2.0
 
 /*----------------------------------------------------------------
-    Copyright (C) 2025 Senparc
+    Copyright (C) 2026 Senparc
  
     文件名：TenPayNotifyHandler.cs
     文件功能描述：微信支付V3 回调请求handler
@@ -47,6 +47,7 @@ using Senparc.Weixin.TenPayV3.Apis.Entities;
 using Senparc.Weixin.TenPayV3.Helpers;
 using System;
 using System.IO;
+using System.Text;
 using System.Threading.Tasks;
 
 
@@ -87,11 +88,23 @@ namespace Senparc.Weixin.TenPayV3
                 || _httpContext.Request.Method == "PUT"
                 || _httpContext.Request.Method == "PATCH")
             {
-                using (var reader = new StreamReader(_httpContext.Request.Body))
+                // 启用缓冲（允许重复读取）
+                _httpContext.Request.EnableBuffering();
+                _httpContext.Request.Body.Position = 0; // 重置流位置到起始点
+
+                using (var reader = new StreamReader(
+                    _httpContext.Request.Body,
+                    encoding: Encoding.UTF8,
+                    detectEncodingFromByteOrderMarks: false,
+                    bufferSize: 1024,
+                    leaveOpen: true)) // 关键：读取后不关闭底层流
                 {
                     Body = reader.ReadToEndAsync().GetAwaiter().GetResult();
                     NotifyRequest = Body.GetObject<NotifyRequest>();
                 }
+                
+                // 重置流位置，供后续中间件/控制器读取
+                _httpContext.Request.Body.Position = 0;
             }
         }
 
@@ -194,3 +207,4 @@ namespace Senparc.Weixin.TenPayV3
         }
     }
 }
+

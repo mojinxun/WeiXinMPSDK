@@ -1,7 +1,7 @@
 ﻿#region Apache License Version 2.0
 /*----------------------------------------------------------------
 
-Copyright 2025 Jeffrey Su & Suzhou Senparc Network Technology Co.,Ltd.
+Copyright 2026 Jeffrey Su & Suzhou Senparc Network Technology Co.,Ltd.
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file
 except in compliance with the License. You may obtain a copy of the License at
@@ -19,13 +19,16 @@ Detail: https://github.com/JeffreySu/WeiXinMPSDK/blob/master/license.md
 #endregion Apache License Version 2.0
 
 /*----------------------------------------------------------------
-    Copyright (C) 2025 Senparc
+    Copyright (C) 2026 Senparc
     
     文件名：OaApi.cs
     文件功能描述：审批接口
     
     
     创建标识：mojinxun - 20230226
+    
+    修改标识：Senparc - 20251223
+    修改描述：添加创建审批模板接口返回参数template_id
     
 ----------------------------------------------------------------*/
 
@@ -161,10 +164,10 @@ namespace Senparc.Weixin.Work.AdvancedAPIs.OA
         /// <param name="data">请求参数</param>
         /// <param name="timeOut"></param>
         /// <returns></returns>
-        public static WxJsonResult ApprovalCreateTemplate(string accessToken, ApprovalCreateTemplateRequest data, int timeOut = Config.TIME_OUT)
+        public static ApprovalCreateTemplateResult ApprovalCreateTemplate(string accessToken, ApprovalCreateTemplateRequest data, int timeOut = Config.TIME_OUT)
         {
             var urlFormat = Config.ApiWorkHost + "/cgi-bin/oa/approval/create_template?access_token={0}";
-            return CommonJsonSend.Send<WxJsonResult>(accessToken, urlFormat, data, CommonJsonSendType.POST, timeOut);
+            return CommonJsonSend.Send<ApprovalCreateTemplateResult>(accessToken, urlFormat, data, CommonJsonSendType.POST, timeOut);
         }
 
         /// <summary>
@@ -296,10 +299,10 @@ namespace Senparc.Weixin.Work.AdvancedAPIs.OA
         /// <param name="data">请求参数</param>
         /// <param name="timeOut"></param>
         /// <returns></returns>
-        public static async Task<WxJsonResult> ApprovalCreateTemplateAsync(string accessToken, ApprovalCreateTemplateRequest data, int timeOut = Config.TIME_OUT)
+        public static async Task<ApprovalCreateTemplateResult> ApprovalCreateTemplateAsync(string accessToken, ApprovalCreateTemplateRequest data, int timeOut = Config.TIME_OUT)
         {
             var urlFormat = Config.ApiWorkHost + "/cgi-bin/oa/approval/create_template?access_token={0}";
-            return await CommonJsonSend.SendAsync<WxJsonResult>(accessToken, urlFormat, data, CommonJsonSendType.POST, timeOut);
+            return await CommonJsonSend.SendAsync<ApprovalCreateTemplateResult>(accessToken, urlFormat, data, CommonJsonSendType.POST, timeOut);
         }
 
         /// <summary>
@@ -318,3 +321,4 @@ namespace Senparc.Weixin.Work.AdvancedAPIs.OA
         #endregion
     }
 }
+

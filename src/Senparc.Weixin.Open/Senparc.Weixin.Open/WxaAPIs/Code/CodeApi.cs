@@ -1,7 +1,7 @@
 ﻿#region Apache License Version 2.0
 /*----------------------------------------------------------------
 
-Copyright 2025 Jeffrey Su & Suzhou Senparc Network Technology Co.,Ltd.
+Copyright 2026 Jeffrey Su & Suzhou Senparc Network Technology Co.,Ltd.
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file
 except in compliance with the License. You may obtain a copy of the License at
@@ -19,7 +19,7 @@ Detail: https://github.com/JeffreySu/WeiXinMPSDK/blob/master/license.md
 #endregion Apache License Version 2.0
 
 /*----------------------------------------------------------------
-    Copyright (C) 2025 Senparc
+    Copyright (C) 2026 Senparc
     
     文件名：CodeApi.cs
     文件功能描述：代码管理
@@ -275,7 +275,7 @@ namespace Senparc.Weixin.Open.WxaAPIs
         /// <returns></returns>
         public static CodeResultJson RevertCodeRelease(string accessToken, string appVersion, int timeOut = Config.TIME_OUT)
         {
-            var url = string.Format(Config.ApiMpHost + "/wxa/revertcoderelease?access_token={0}&app_version={1}", accessToken.AsUrlData(),appVersion.AsUrlData());
+            var url = string.Format(Config.ApiMpHost + "/wxa/revertcoderelease?access_token={0}&app_version={1}", accessToken.AsUrlData(), appVersion.AsUrlData());
 
             return CommonJsonSend.Send<CodeResultJson>(null, url, null, CommonJsonSendType.GET, timeOut);
         }
@@ -408,6 +408,21 @@ namespace Senparc.Weixin.Open.WxaAPIs
         }
 
 
+        /// <summary>
+        /// 提审素材上传接口
+        /// 文档 https://developers.weixin.qq.com/doc/oplatform/Third-party_Platforms/2.0/api/code/submit_audit.html
+        /// </summary>
+        /// <param name="accessToken"></param>
+        /// <param name="timeOut"></param>
+        /// <returns></returns>
+        public static UploadMediaResult UploadMedia(string accessToken, Stream fileStream, int timeOut = Config.TIME_OUT)
+        {
+            var url = string.Format(Config.ApiMpHost + "/wxa/uploadmedia?access_token={0}", accessToken.AsUrlData());
+
+            fileStream.Seek(0, SeekOrigin.Begin);
+
+            return CO2NET.HttpUtility.Post.PostGetJson<UploadMediaResult>(CommonDI.CommonSP, url, null, fileStream, timeOut: timeOut);
+        }
         #endregion
 
 
@@ -756,6 +771,23 @@ namespace Senparc.Weixin.Open.WxaAPIs
             return await Post.PostFileGetJsonAsync<UploadMediaResult>(CommonDI.CommonSP, url, null, fileDictionary, null, timeOut: timeOut).ConfigureAwait(false);
         }
 
+        /// <summary>
+        /// 提审素材上传接口
+        /// 文档 https://developers.weixin.qq.com/doc/oplatform/Third-party_Platforms/2.0/api/code/submit_audit.html
+        /// </summary>
+        /// <param name="accessToken"></param>
+        /// <param name="file"></param>
+        /// <param name="timeOut"></param>
+        /// <returns></returns>
+        public static async Task<UploadMediaResult> UploadMediaAsync(string accessToken, Stream fileStream, int timeOut = Config.TIME_OUT)
+        {
+            var url = string.Format(Config.ApiMpHost + "/wxa/uploadmedia?access_token={0}", accessToken.AsUrlData());
+
+            fileStream.Seek(0, SeekOrigin.Begin);
+            return await CO2NET.HttpUtility.Post.PostGetJsonAsync<UploadMediaResult>(CommonDI.CommonSP, url, null, fileStream, timeOut: timeOut).ConfigureAwait(false);
+        }
+
         #endregion
     }
 }
+

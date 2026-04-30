@@ -1,7 +1,7 @@
 ﻿#region Apache License Version 2.0
 /*----------------------------------------------------------------
 
-Copyright 2025 Jeffrey Su & Suzhou Senparc Network Technology Co.,Ltd.
+Copyright 2026 Jeffrey Su & Suzhou Senparc Network Technology Co.,Ltd.
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file
 except in compliance with the License. You may obtain a copy of the License at
@@ -61,16 +61,16 @@ namespace Senparc.Weixin.MP.Test.CommonAPIs
                 if (_appConfig == null)
                 {
 #if NETCOREAPP2_0_OR_GREATER || NET6_0_OR_GREATER
-                    var filePath = "../../../Config/test.config";
+                    var filePath = Path.Combine(Senparc.CO2NET.Config.RootDirectoryPath, "Config",/*"../../../Config"*/ "test.config");
 #else
                     var filePath = "../../Config/test.config";
 #endif
                     if (File.Exists(filePath))
                     {
 #if NETCOREAPP2_0_OR_GREATER || NET6_0_OR_GREATER
-                        var stream = new FileStream(filePath, FileMode.Open);
-                        var doc = XDocument.Load(stream);
-                        stream.Dispose();
+                        //var stream = new FileStream(filePath, FileMode.Open);
+                        var doc = XDocument.Load(filePath);
+                        //stream.Dispose();
 #else
                         var doc = XDocument.Load(filePath);
 #endif
@@ -298,3 +298,4 @@ namespace Senparc.Weixin.MP.Test.CommonAPIs
         }
     }
 }
+

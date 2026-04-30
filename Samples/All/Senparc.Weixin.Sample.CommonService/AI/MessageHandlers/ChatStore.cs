@@ -1,5 +1,5 @@
 ﻿/*----------------------------------------------------------------
-    Copyright (C) 2025 Senparc
+    Copyright (C) 2026 Senparc
     
     文件名：ChatStore.cs
     文件功能描述：按个人信息隔离的 Chat 缓存
@@ -7,9 +7,11 @@
     
     创建标识：Senparc - 20240524
 
+    修改标识：Wang Qian - 20250728
+    修改描述：为长对话模式的支持新增了LastStoredMemory、LastStoredPrompt、UseLongChat属性
+
 ----------------------------------------------------------------*/
 
-using Microsoft.Extensions.AI;
 using Microsoft.SemanticKernel.ChatCompletion;
 using Senparc.AI.Kernel.Handlers;
 using System.Collections.Generic;
@@ -36,10 +38,32 @@ namespace Senparc.Weixin.MP.Sample.CommonService.AI.MessageHandlers
 
         public List<WeixinAiChatHistory> History { get; set; }
 
+        /// <summary>
+        /// 是否使用Markdown格式输出
+        /// </summary>
+        public bool UseMarkdown { get; set; }
+
+        /// <summary>
+        /// 是否使用长对话模式
+        /// </summary>
+        public bool UseLongChat { get; set; }
+
+        /// <summary>
+        /// 上一次保存的记忆
+        /// </summary>
+        public string LastStoredMemory { get; set; }
+
+        /// <summary>
+        /// 上一次提问的prompt
+        /// </summary>
+        public string LastStoredPrompt { get; set; }
+
         public ChatStore()
         {
             Status = ChatStatus.None;
             MultimodelType = MultimodelType.None;
+            UseMarkdown = true;
+            UseLongChat = false;
         }
 
         public ChatHistory GetChatHistory()
@@ -54,7 +78,7 @@ namespace Senparc.Weixin.MP.Sample.CommonService.AI.MessageHandlers
 
         public void SetChatHistory(ChatHistory chatHistory)
         {
-            if (chatHistory==null)
+            if (chatHistory == null)
             {
                 ClearHistory();
             }
@@ -120,4 +144,6 @@ namespace Senparc.Weixin.MP.Sample.CommonService.AI.MessageHandlers
         SimpleChat,
         ChatAndImage
     }
+    
 }
+

@@ -1,5 +1,5 @@
 ﻿/*----------------------------------------------------------------
-    Copyright (C) 2025 Senparc
+    Copyright (C) 2026 Senparc
     
     文件名：GetIcpEntranceInfoResultJson.cs
     文件功能描述：注销小程序备案 接口返回消息
@@ -42,7 +42,31 @@ namespace Senparc.Weixin.Open.WxaAPIs.Icp.IcpJson
         /// 驳回原因，备案不通过时返回
         /// </summary>
         public List<AuditDataModel> audit_data { get; set; }
+
+        /// <summary>
+        /// 备案入口是否对该小程序开放
+        /// </summary>
+        public Available available { get; set; }
+
+        /// <summary>
+        /// 管局短信核验状态，仅当备案状态为 `4`（管局审核中）的时候才有效。
+        /// </summary>
+        public SmsVerifyStatus sms_verify_status { get; set; }
     }
+
+    public enum Available
+    {
+        不开放 = 0,
+        开入 = 1
+    }
+
+    public enum SmsVerifyStatus
+    {
+        等待核验中 = 1,
+        核验完成 = 2,
+        核验超时 = 3
+    }
+
 
     public enum StatusCode
     {
@@ -54,7 +78,11 @@ namespace Senparc.Weixin.Open.WxaAPIs.Icp.IcpJson
         未备案 = 1024,
         未备案_小程序基本信息未填 = 1025,
         未备案_小程序类目未填 = 1026,
-        未备案_小程序基本信息未填_小程序类目未填 = 1027
+        未备案_小程序基本信息未填_小程序类目未填 = 1027,
+        未备案_小程序未认证 = 1028,
+        未备案_小程序信息未填_小程序未认证 = 1029,
+        未备案_小程序类目未填_小程序未认证 = 1030,
+        未备_小程序信息未填_小程序类目未填_小程序未认证 = 1031
     }
 
 
@@ -78,3 +106,4 @@ namespace Senparc.Weixin.Open.WxaAPIs.Icp.IcpJson
         public string suggest { get; set; }
     }
 }
+

@@ -1,5 +1,5 @@
 ﻿/*----------------------------------------------------------------
-    Copyright (C) 2025 Senparc
+    Copyright (C) 2026 Senparc
     
     文件名：DefaultWorkMessageContext.cs
     文件功能描述：企业微信上下文的默认实现
@@ -244,7 +244,7 @@ namespace Senparc.Weixin.Work.MessageContexts
                             break;
                         case "TEMPLATE_CARD_EVENT": // 模板卡片事件推送
                             requestMessage = new RequestMessageEvent_TemplateCardEvent();
-                            break;  
+                            break;
                         case "TEMPLATE_CARD_MENU_EVENT": // 通用模板卡片右上角菜单事件
                             requestMessage = new RequestMessageEvent_TemplateCardMenuEvent();
                             break;
@@ -316,3 +316,4 @@ namespace Senparc.Weixin.Work.MessageContexts
         }
     }
 }
+

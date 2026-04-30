@@ -1,7 +1,7 @@
 ﻿#region Apache License Version 2.0
 /*----------------------------------------------------------------
 
-Copyright 2025 Jeffrey Su & Suzhou Senparc Network Technology Co.,Ltd.
+Copyright 2026 Jeffrey Su & Suzhou Senparc Network Technology Co.,Ltd.
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file
 except in compliance with the License. You may obtain a copy of the License at
@@ -19,7 +19,7 @@ Detail: https://github.com/JeffreySu/WeiXinMPSDK/blob/master/license.md
 #endregion Apache License Version 2.0
 
 /*----------------------------------------------------------------
-    Copyright (C) 2025 Senparc
+    Copyright (C) 2026 Senparc
     
     文件名：WxAppApi.cs
     文件功能描述：小程序WxApp目录下面的接口
@@ -94,8 +94,11 @@ namespace Senparc.Weixin.WxOpen.AdvancedAPIs.WxApp
         /// <returns> <see cref="WxJsonResult"/> 从流的JSON内容反序列化的对象</returns>
         private static WxJsonResult ToWxJsonResult(Stream stream)
         {
-            stream.Position = 0;
-            using StreamReader streamReader = new StreamReader(stream);
+            stream.Position = 0; // 保证从开始位置读取
+            using MemoryStream memoryStream = new MemoryStream();
+            stream.CopyTo(memoryStream); // 将内容复制到 MemoryStream
+            memoryStream.Position = 0; // 保证从开始位置读取
+            using StreamReader streamReader = new StreamReader(memoryStream);
             var errorInfo = streamReader.ReadToEnd();
             return errorInfo.GetObject<WxJsonResult>();
         }
@@ -173,7 +176,7 @@ namespace Senparc.Weixin.WxOpen.AdvancedAPIs.WxApp
         /// <param name="accessTokenOrAppId">AccessToken或AppId（推荐使用AppId，需要先注册）</param>
         /// <param name="stream">储存小程序码的流</param>
         /// <param name="scene">最大32个可见字符，只支持数字，大小写英文以及部分特殊字符：!#$&'()*+,/:;=?@-._~，其它字符请自行编码为合法字符（因不支持%，中文无法使用 urlencode 处理，请使用其他编码方式）</param>
-        /// <param name="page">必须是已经发布的小程序页面，例如 "pages/index/index" ,根路径前不要填加'/',不能携带参数（参数请放在scene字段里），如果不填写这个字段，默认跳主页面</param>
+        /// <param name="page">默认是主页，页面 page，例如 pages/index/index，根路径前不要填加 /，不能携带参数（参数请放在scene字段里），如果不填写这个字段，默认跳主页面。scancode_time为系统保留参数，不允许配置</param>
         /// <param name="check_path">[选填]检查page 是否存在，为 true 时 page 必须是已经发布的小程序存在的页面（否则报错）；为 false 时允许小程序未发布或者 page 不存在， 但page 有数量上限（60000个）请勿滥用</param>
         /// <param name="env_version">[选填]要打开的小程序版本,默认为"release"。正式版为 "release"，体验版为 "trial"，开发版为 "develop"</param>
         /// <param name="width">[选填]小程序码的宽度</param>
@@ -959,8 +962,11 @@ namespace Senparc.Weixin.WxOpen.AdvancedAPIs.WxApp
         /// <returns> <see cref="WxJsonResult"/> 从流的JSON内容反序列化的对象</returns>
         private static async Task<WxJsonResult> ToWxJsonResultAsync(Stream stream)
         {
-            stream.Position = 0;
-            using StreamReader streamReader = new StreamReader(stream);
+            stream.Position = 0; // 保证从开始位置读取
+            using MemoryStream memoryStream = new MemoryStream();
+            await stream.CopyToAsync(memoryStream);
+            memoryStream.Position = 0; // 保证从开始位置读取
+            using StreamReader streamReader = new StreamReader(memoryStream);
             var errorInfo = await streamReader.ReadToEndAsync();
             return errorInfo.GetObject<WxJsonResult>();
         }
@@ -1002,7 +1008,7 @@ namespace Senparc.Weixin.WxOpen.AdvancedAPIs.WxApp
         /// <param name="accessTokenOrAppId">AccessToken或AppId（推荐使用AppId，需要先注册）</param>
         /// <param name="stream">储存小程序码的流</param>
         /// <param name="scene">最大32个可见字符，只支持数字，大小写英文以及部分特殊字符：!#$&'()*+,/:;=?@-._~，其它字符请自行编码为合法字符（因不支持%，中文无法使用 urlencode 处理，请使用其他编码方式）</param>
-        /// <param name="path">必须是已经发布的小程序页面，例如 "pages/index/index" ,根路径前不要填加'/',不能携带参数（参数请放在scene字段里），如果不填写这个字段，默认跳主页面</param>
+        /// <param name="page">默认是主页，页面 page，例如 pages/index/index，根路径前不要填加 /，不能携带参数（参数请放在scene字段里），如果不填写这个字段，默认跳主页面。scancode_time为系统保留参数，不允许配置</param>
         /// <param name="check_path">[选填]检查page 是否存在，为 true 时 page 必须是已经发布的小程序存在的页面（否则报错）；为 false 时允许小程序未发布或者 page 不存在， 但page 有数量上限（60000个）请勿滥用</param>
         /// <param name="env_version">[选填]要打开的小程序版本,默认为"release"。正式版为 "release"，体验版为 "trial"，开发版为 "develop"</param>
         /// <param name="width">小程序码的宽度</param>
@@ -1012,7 +1018,7 @@ namespace Senparc.Weixin.WxOpen.AdvancedAPIs.WxApp
         /// <param name="timeOut">请求超时时间</param>
         /// <returns></returns>
         public static async Task<WxJsonResult> GetWxaCodeUnlimitAsync(string accessTokenOrAppId, Stream stream,
-            string scene, string path, bool check_path = true, string env_version = "release", int width = 430, bool auto_color = false, LineColor lineColor = null, bool isHyaline = false,
+            string scene, string page, bool check_path = true, string env_version = "release", int width = 430, bool auto_color = false, LineColor lineColor = null, bool isHyaline = false,
             int timeOut = Config.TIME_OUT)
         {
             return await WxOpenApiHandlerWapper.TryCommonApiAsync(async accessToken =>
@@ -1028,7 +1034,7 @@ namespace Senparc.Weixin.WxOpen.AdvancedAPIs.WxApp
                 var data = new
                 {
                     scene = scene,
-                    path = path,
+                    page = page,
                     check_path = check_path,
                     env_version = env_version,
                     width = width,

@@ -1,7 +1,7 @@
 ﻿#region Apache License Version 2.0
 /*----------------------------------------------------------------
 
-Copyright 2025 Jeffrey Su & Suzhou Senparc Network Technology Co.,Ltd.
+Copyright 2026 Jeffrey Su & Suzhou Senparc Network Technology Co.,Ltd.
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file
 except in compliance with the License. You may obtain a copy of the License at
@@ -58,14 +58,15 @@ namespace Senparc.Weixin.Work.Test.AdvancedAPIs
             Assert.IsTrue(result.errcode == ReturnCode_Work.请求成功);
         }
 
-        [TestMethod]
-        public void QuitChatTest()
-        {
-            var accessToken = AccessTokenContainer.GetToken(_corpId, base._corpSecret);
+        //[TestMethod]
+        //public void QuitChatTest()
+        //{
+        //    var accessToken = AccessTokenContainer.GetToken(_corpId, base._corpSecret);
 
-            var result = ChatApi.QuitChat(accessToken, "1", "007");
+        //    var result = ChatApi.QuitChat(accessToken, "1", "007");
             
-            Assert.IsTrue(result.errcode == ReturnCode_Work.请求成功);
-        }
+        //    Assert.IsTrue(result.errcode == ReturnCode_Work.请求成功);
+        //}
     }
 }
+

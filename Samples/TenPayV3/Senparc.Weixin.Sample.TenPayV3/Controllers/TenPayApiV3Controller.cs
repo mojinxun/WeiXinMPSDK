@@ -1,5 +1,5 @@
 ﻿/*----------------------------------------------------------------
-    Copyright (C) 2025 Senparc
+    Copyright (C) 2026 Senparc
     
     文件名：TenpayApiV3Controller.cs
     文件功能描述：微信支付V3 Controller
@@ -98,7 +98,7 @@ namespace Senparc.Weixin.Sample.TenPayV3.Controllers
 
             if (url.IsNullOrEmpty())
             {
-                throw new Exception("此功能需要使用微信公众号，但未获取到 OAuth URL，如果此项目为自动僧城项目，请确保已经引用“公众号”");
+                throw new Exception("此功能需要使用微信公众号，但未获取到 OAuth URL，如果此项目为自动生成项目，请确保已经引用“公众号”");
             }
 
             return Redirect(url);
@@ -298,7 +298,7 @@ namespace Senparc.Weixin.Sample.TenPayV3.Controllers
                 }
 
                 //获取 UI 信息包
-                var jsApiUiPackage = TenPaySignHelper.GetJsApiUiPackage(TenPayV3Info.AppId, result.prepay_id, _tenpayV3Setting);
+                var jsApiUiPackage = TenPaySignHelper.GetJsApiUiPackage(result.prepay_id, TenPayV3Info);
                 ViewData["jsApiUiPackage"] = jsApiUiPackage;
 
                 //临时记录订单信息，留给退款申请接口测试使用（分布式情况下请注意数据同步）
@@ -735,3 +735,4 @@ namespace Senparc.Weixin.Sample.TenPayV3.Controllers
         #endregion
     }
 }
+

@@ -1,7 +1,7 @@
 ﻿#region Apache License Version 2.0
 /*----------------------------------------------------------------
 
-Copyright 2025 Jeffrey Su & Suzhou Senparc Network Technology Co.,Ltd.
+Copyright 2026 Jeffrey Su & Suzhou Senparc Network Technology Co.,Ltd.
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file
 except in compliance with the License. You may obtain a copy of the License at
@@ -19,7 +19,7 @@ Detail: https://github.com/JeffreySu/WeiXinMPSDK/blob/master/license.md
 #endregion Apache License Version 2.0
 
 /*----------------------------------------------------------------
-    Copyright (C) 2025 Senparc
+    Copyright (C) 2026 Senparc
     
     文件名：FreePublishGetArticleResultJson.cs
     文件功能描述：获取已发布文章 返回结果
@@ -44,13 +44,19 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+#if NET8_0_OR_GREATER
+using ModelContextProtocol.Protocol;
+using ModelContextProtocol.Server;
+#endif
 using Senparc.CO2NET;
 using Senparc.CO2NET.AspNet;
 using Senparc.CO2NET.Cache;
 using Senparc.CO2NET.RegisterServices;
+using Senparc.Weixin.AspNet.MCP;
 using Senparc.Weixin.Entities;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 
 namespace Senparc.Weixin.AspNet
 {
@@ -92,6 +98,57 @@ namespace Senparc.Weixin.AspNet
 
             return register;
         }
+
+
+#if NET8_0_OR_GREATER
+        #region MCP Router
+
+
+        public static IServiceCollection AddMcpRouter(IServiceCollection services)
+        {
+
+            //var aiFunction = global::Microsoft.Extensions.AI.AIFunctionFactory.Create(methodInfo,
+            // typeof(Senparc.Xncf.SenMapic.OHS.Local.AppService.MyFuctionAppService));
+
+            //var tool = McpServerTool.Create(aiFunction);
+
+            var routerName = "WeChat-Mcp";
+            System.Console.WriteLine($"正在添加微信 MCP Router:/{routerName}/sse");
+
+            var mcpServerBuilder = services.AddMcpServer(opt =>
+            {
+                opt.ServerInfo = new Implementation()
+                {
+                    Name = routerName,
+                    Version = "1.0.0",
+                };
+            })
+          .WithHttpTransport()
+          .WithTools(new[] { typeof(WeChatMcpRouter) });
+            //.WithToolsFromAssembly();
+
+
+
+            //var mcpServerBuilder = services.AddMcpServer(opt =>
+            //            {
+            //                opt.ServerInfo = new Implementation()
+            //                {
+            //                    Name = routerName,
+            //                    Version = "1.0.0",
+            //                };
+            //            })
+            //            .WithHttpTransport()
+            //                                //   .WithStdioServerTransport()
+            //                                //.WithTools(new[] { tool })
+            //                                .WithToolsFromAssembly()
+            //                                //.WithToolsFromAssembly(typeof(Senparc.Xncf.SenMapic.Register).Assembly)
+            //                                ;
+            return services;
+        }
+
+        #endregion
+#endif
     }
 }
 #endif
+

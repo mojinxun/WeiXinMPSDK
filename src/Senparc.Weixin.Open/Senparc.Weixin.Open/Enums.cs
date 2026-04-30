@@ -1,7 +1,7 @@
 ﻿#region Apache License Version 2.0
 /*----------------------------------------------------------------
 
-Copyright 2025 Jeffrey Su & Suzhou Senparc Network Technology Co.,Ltd.
+Copyright 2026 Jeffrey Su & Suzhou Senparc Network Technology Co.,Ltd.
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file
 except in compliance with the License. You may obtain a copy of the License at
@@ -19,7 +19,7 @@ Detail: https://github.com/JeffreySu/WeiXinMPSDK/blob/master/license.md
 #endregion Apache License Version 2.0
 
 /*----------------------------------------------------------------
-    Copyright (C) 2025 Senparc
+    Copyright (C) 2026 Senparc
     
     文件名：Enums.cs
     文件功能描述：枚举类型
@@ -53,6 +53,9 @@ Detail: https://github.com/JeffreySu/WeiXinMPSDK/blob/master/license.md
 
     修改标识：Senparc - 20230207
     修改描述：v4.14.15 完善“第三方平台业务域名”，添加枚举：ModifyWxaJumpDomain_Action #2767 #2789
+
+    修改标识：mc7246 - 20260119
+    修改描述：修复小程序注销备案缺失参数，添加 CancelIcpFiling_Cancel_Type 和 CancelIcpFiling_Reason_Type 枚举 #3243
 
 ----------------------------------------------------------------*/
 
@@ -492,4 +495,110 @@ namespace Senparc.Weixin.Open
         /// </summary>
         get
     }
+
+    /// <summary>
+    /// 注销类型
+    /// </summary>
+    public enum CancelIcpFiling_Cancel_Type
+    {
+        注销主体 = 1,
+        注销小程序 = 2,
+        注销微信小程序 = 3
+    }
+
+    /// <summary>
+    /// 注销原因类型
+    /// </summary>
+    public enum CancelIcpFiling_Reason_Type
+    {
+        不再运营该小程序注销主体 = 1,
+        主体信息发生变更_需注销备案后重新备案 = 2
+    }
+
+    /// <summary>
+    /// 快速注册企业小程序接口，status 参数枚举
+    /// </summary>
+    public enum FastRegisterEnterpriseWeApp_Status
+    {
+        非法ACTION参数 = -1,
+        请求成功 = 0,
+        生成任务 = 1,
+        任务超时 = 2,
+        任务已经被用户拒绝 = 3,
+        用户同意创建 = 4,
+        已经发起人脸流程 = 5,
+        人脸认证失败 = 6,
+        人脸认证ok = 7,
+        人脸认证后_已经提交手机号码下发验证码 = 8,
+        手机验证失败 = 9,
+        手机号验证成功后_提交了创建 = 10,
+        创建失败 = 11,
+        创建成功 = 12,
+        企业信息验证通过 = 13,
+        企业信息验证不通过 = 14,
+        主体创建小程序数量达到上限 = 1001,
+        主体违规命中黑名单 = 1002,
+        管理员绑定账号数量达到上限 = 1003,
+        管理员违规命中黑名单 = 1004,
+        管理员手机绑定账号数量达到上限 = 1005,
+        管理员手机号违规命中黑名单 = 1006,
+        管理员身份证创建账号数量达到上限 = 1007,
+        管理员身份证违规命中黑名单 = 1008,
+        获取ACCESS_TOKEN时APPSECRET错误_或者ACCESS_TOKEN无效_请开发者认真比对APPSECRET的正确性_或查看是否正在为恰当的公众号调用接口 = 40001,
+        接口调用凭证无效_请检查 = 40014,
+        非在营企业不允许注册 = 86021,
+        请检查填写的企业名称和CODE是否正确 = 86022,
+        提交的JSON数据缺少需要的参数 = 86030,
+        不支持个人第三方号进行调用 = 86040,
+        系统错误_请稍后重试 = 89247,
+        第三方没有全网发布的权限集 = 89254,
+        CODE参数无效_请检查CODE长度以及内容是否正确 = 89255,
+        不支持个人主体的第三方 = 89295
+    }
+
+    /// <summary>
+    /// 快速注册个人小程序接口，status 参数枚举
+    /// </summary>
+    public enum FastRegisterPersonalWeApp_Status
+    {
+        生成任务 = 0,
+        任务超时 = 1,
+        任务已经被用户拒绝 = 2,
+        用户同意创建 = 3,
+        已经发起人脸流程 = 4,
+        人脸认证失败 = 5,
+        人脸认证ok = 6,
+        人脸认证后_已经提交手机号码下发验证码 = 7,
+        手机验证失败 = 8,
+        手机验证成功 = 9,
+        手机号验证成功后_提交了创建 = 10,
+        创建失败 = 11,
+        创建成功 = 12,
+        验证成功 = 13,
+        验证失败 = 14,
+        主体创建小程序数量达到上限 = 1001,
+        主体违规命中黑名单 = 1002,
+        管理员绑定账号数量达到上限 = 1003,
+        管理员违规命中黑名单 = 1004,
+        管理员手机绑定账号数量达到上限 = 1005,
+        管理员手机号违规命中黑名单 = 1006,
+        管理员身份证创建账号数量达到上限 = 1007,
+        管理员身份证违规命中黑名单 = 1008,
+        获取ACCESS_TOKEN时APPSECRET错误_或者ACCESS_TOKEN无效_请开发者认真比对APPSECRET的正确性_或查看是否正在为恰当的公众号调用接口 = 40001,
+        接口调用凭证无效_请检查 = 40014,
+        超出接口每日调用限制 = 45009,
+        API_调用太频繁_请稍候再试 = 45011,
+        非在营企业不允许注册 = 86021,
+        请检查填写的企业名称和CODE是否正确 = 86022,
+        提交的JSON数据缺少需要的参数 = 86030,
+        内部错误_第三方号无效或未全网发布 = 86031,
+        无效微信号_微信ID无效 = 86032,
+        第三方号的缺少所需权限集_第三方号的权限集缺失 = 86033,
+        该微信号受限_无法注册 = 86034,
+        姓名与微信号不一致 = 86036,
+        不支持个人第三方号进行调用 = 86040,
+        每个微信号每天只能调用该接口5次_已达上限了 = 91030
+    }
+
 }
+

@@ -1,7 +1,7 @@
 ﻿#region Apache License Version 2.0
 /*----------------------------------------------------------------
 
-Copyright 2025 Jeffrey Su & Suzhou Senparc Network Technology Co.,Ltd.
+Copyright 2026 Jeffrey Su & Suzhou Senparc Network Technology Co.,Ltd.
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file
 except in compliance with the License. You may obtain a copy of the License at
@@ -19,7 +19,7 @@ Detail: https://github.com/JeffreySu/WeiXinMPSDK/blob/master/license.md
 #endregion Apache License Version 2.0
 
 /*----------------------------------------------------------------
-    Copyright (C) 2025 Senparc
+    Copyright (C) 2026 Senparc
   
     文件名：RefundReturnJson.cs
     文件功能描述：微信支付退款结果Json
@@ -138,17 +138,17 @@ namespace Senparc.Weixin.TenPayV3.Apis.BasePay
         /// <summary>
         /// 金额详细信息
         /// </summary>
-        public Amount amount { get; set; }
+        public RefundAmount amount { get; set; }
 
         /// <summary>
         /// 优惠退款信息
         /// </summary>
-        public Promotion_Detail[] promotion_detail { get; set; }
+        public RefundPromotionDetail[] promotion_detail { get; set; }
 
         /// <summary>
         /// 金额详细信息
         /// </summary>
-        public class Amount
+        public class RefundAmount
         {
             /// <summary>
             /// 总金额
@@ -166,7 +166,7 @@ namespace Senparc.Weixin.TenPayV3.Apis.BasePay
             /// <summary>
             /// 退款出资的账户类型及金额信息
             /// </summary>
-            public From[] from { get; set; }
+            public RefundFrom[] from { get; set; }
 
             /// <summary>
             /// 用户支付金额
@@ -214,7 +214,7 @@ namespace Senparc.Weixin.TenPayV3.Apis.BasePay
         /// <summary>
         /// 退款出资的账户类型及金额信息
         /// </summary>
-        public class From
+        public class RefundFrom
         {
             /// <summary>
             /// 出资账户类型
@@ -237,7 +237,7 @@ namespace Senparc.Weixin.TenPayV3.Apis.BasePay
         /// <summary>
         /// 优惠退款信息
         /// </summary>
-        public class Promotion_Detail
+        public class RefundPromotionDetail
         {
             /// <summary>
             /// 券或者立减优惠id
@@ -277,13 +277,13 @@ namespace Senparc.Weixin.TenPayV3.Apis.BasePay
             /// <summary>
             /// 单品列表信息
             /// </summary>
-            public Goods_Detail[] goods_detail { get; set; }
+            public RefundGoodsDetail[] goods_detail { get; set; }
         }
 
         /// <summary>
         /// 单品列表信息
         /// </summary>
-        public class Goods_Detail
+        public class RefundGoodsDetail
         {
             /// <summary>
             /// 商户侧商品编码
@@ -326,3 +326,4 @@ namespace Senparc.Weixin.TenPayV3.Apis.BasePay
         }
     }
 }
+
